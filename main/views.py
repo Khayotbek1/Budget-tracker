@@ -1,6 +1,7 @@
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from .serializers import *
 
 
@@ -22,3 +23,9 @@ class IncomeListCreateAPIView(ListCreateAPIView):
         user.balance += serializer.validated_data['amount']
         user.save()
         serializer.save(user=self.request.user)
+
+class ExpenseListCreateAPIView(ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self,request):
+        expense = Expense.objects.filter(user=self.request.user)
