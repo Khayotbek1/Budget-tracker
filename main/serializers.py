@@ -18,3 +18,11 @@ class IncomeSafeSerializer(ModelSerializer):
     class Meta:
         model = Income
         fields = '__all__'
+
+
+class ExpenseSerializer(ModelSerializer):
+    class Meta:
+        model = Expense
+        fields = '__all__'
+
+        read_only_fields = ('user',)
