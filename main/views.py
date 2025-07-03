@@ -6,6 +6,7 @@ from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 from .serializers import *
 
 
@@ -15,8 +16,12 @@ class IncomeListCreateAPIView(ListCreateAPIView):
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['source']
     ordering_fields = ['amount', 'created_at', 'date']
+    pagination_class = PageNumberPagination
+    page_size = 10
+
 
     @swagger_auto_schema(
+        tags=['Budget'],
         manual_parameters=[
             openapi.Parameter(
                 name='ordering',
@@ -25,10 +30,10 @@ class IncomeListCreateAPIView(ListCreateAPIView):
                 type=openapi.TYPE_STRING,
                 enum = ['amount', '-amount', 'created_at', '-created_at', '-date', 'date']
             )
-        ]
+        ],
     )
-    def get(self, *args, **kwargs):
-       return super().get(*args, **kwargs)
+    def get(self, request, *args, **kwargs):
+       return self.list(request,*args, **kwargs)
 
 
 
@@ -51,6 +56,8 @@ class ExpenseListCreateAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
+        operation_id="expenses_list",
+        tags=["Budget"],
         operation_description='Get expense list',
         manual_parameters=[
             openapi.Parameter(
@@ -66,7 +73,7 @@ class ExpenseListCreateAPIView(APIView):
                 type=openapi.TYPE_STRING,
                 enum = ['amount', '-amount', 'created_at', '-created_at', '-date', 'date']
             )
-        ]
+        ],
     )
 
     def get (self, request):
@@ -83,7 +90,9 @@ class ExpenseListCreateAPIView(APIView):
         return Response(serializer.data)
 
     @swagger_auto_schema(
-        request_body=ExpenseSerializer
+        request_body=ExpenseSerializer,
+        operation_id="expenses_create",
+        tags = ["Budget"],
     )
     def post (self, request):
         serializer = ExpenseSerializer(data=request.data)

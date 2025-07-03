@@ -1,6 +1,8 @@
 from datetime import timedelta
 from pathlib import Path
 
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-xo7dhbw0a-5(@t10w_2ala0*pko_eth-929u$e#a50%2c(n239'
 DEBUG = True
@@ -37,6 +39,8 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=180),
 }
 
+
+
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'Bearer': {
@@ -45,6 +49,8 @@ SWAGGER_SETTINGS = {
             'in': 'header'
         }
     },
+
+    'DEFAULT_AUTO_SCHEMA_CLASS': 'core.swagger_schema.CustomAutoSchema',
 
     'DEFAULT_MODEL_RENDERING': 'example',  # kod ko‘rinishida chiqadi
     'DOC_EXPANSION': 'list',  # 'none', 'list', yoki 'full'
