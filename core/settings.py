@@ -150,7 +150,7 @@ AUTH_USER_MODEL = 'users.User'
 
 JAZZMIN_SETTINGS = {
     'site_title': _('Budget Tracker'),
-    'site_header': _('Budget Trackere'),
+    'site_header': _('Budget Tracker'),
     'site_brand': _('Budget Tracker'),
     'welcome': _('Welcome'),
     "language_chooser": True,
